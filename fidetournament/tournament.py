@@ -1,3 +1,6 @@
+from player import Player
+
+
 class Tournament(object):
     """ Base class for saving tournament data
     """
@@ -15,13 +18,16 @@ class Tournament(object):
         self.chiefarbiter = u''
         self.deputyarbiters = u''
         self.rateofplay = u''
+        self.rounddates = []
+        self.players = []
+        self.teams = []
 
     def parse(self, filename=''):
         """ create a Tournament object based on a TRF file """
         fp = open(filename, 'r')
         for line in fp.readlines():
             # check for tournament data
-            data = line[:4].strip()
+            data = line[4:].strip()
             if line.startswith('012 '):
                 self.name = data
             elif line.startswith('022 '):
@@ -46,11 +52,69 @@ class Tournament(object):
                 self.deputyarbiters = data
             elif line.startswith('122 '):
                 self.rateofplay = data
+            elif line.startswith('132 '):
+                self.rounddates = self.string_groupper(data, 10)
+            elif line.startswith('001 '):
+                player = self.parse_player(line)
+                self.players.append(player)
 
-
+            elif line.startswith('013 '):
+                team = self.parse_team(data)
+                self.teams.append(team)
 
         fp.close()
+
+    def parse_player(self, line):
+        player = Player()
+        player.startrank = line[4:8].strip()
+        player.sex = line[9].strip()
+        player.title = line[10:13].strip()
+        player.name = line[14:47].strip()
+        player.fide = line[48:52].strip()
+        player.fed = line[53:56].strip()
+        player.id = line[57:68].strip()
+        player.birthdate = line[69:79].strip()
+        player.points = line[80:84].strip()
+        player.rank = line[85:89].strip()
+        opponent_data = line[91:].rstrip()
+        opponent_list = self.string_groupper(opponent_data, 10)
+        player.opponents = self.parse_opponent_list(opponent_list)
+        return player
+
+    def parse_opponent_list(self, opponent_list):
+        opponents = []
+        roundnumber = 1
+        for opponent in opponent_list:
+            data = {}
+            data['id'] = opponent[:4]
+            data['color'] = opponent[5]
+            data['result'] = opponent[7]
+            data['round'] = roundnumber
+            roundnumber = roundnumber + 1
+            opponents.append(data)
+        return opponents
+
+    def parse_team(self, data):
+        pass
 
     def serialize(self):
         """ serialize Tournament information to a TRF file """
         raise NotImplementedError
+
+    def string_groupper(self, lst, n):
+        """ group string in n sized substrings """
+        def group(lst, n):
+            return zip(*[lst[i::n] for i in range(n)])
+
+        items = group(lst, n)
+        ret = []
+        for item in items:
+            ret.append(''.join(item).rstrip())
+
+        return ret
+
+    def __repr__(self):
+        return '%s (%s) from %s to %s' % (self.name,
+          self.federation,
+          self.startdate,
+          self.enddate)
