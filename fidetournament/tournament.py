@@ -86,9 +86,9 @@ class Tournament(object):
         roundnumber = 1
         for opponent in opponent_list:
             data = {}
-            data['id'] = opponent[:4]
-            data['color'] = opponent[5]
-            data['result'] = opponent[7]
+            data['id'] = opponent and opponent[:4] or None
+            data['color'] = opponent and opponent[5] or None
+            data['result'] = opponent and opponent[7] or None
             data['round'] = roundnumber
             roundnumber = roundnumber + 1
             opponents.append(data)
