@@ -126,22 +126,35 @@ class Tournament(object):
         """
         out = StringIO()
         out.write('012 %s' % self.name)
+        out.write('\n')
         out.write('022 %s' % self.city)
-        out.write('032 %s' % self.country)
+        out.write('\n')
+        out.write('032 %s' % self.federation)
+        out.write('\n')
         out.write('042 %s' % self.startdate)
+        out.write('\n')
         out.write('052 %s' % self.enddate)
+        out.write('\n')
         out.write('062 %s' % self.numplayers)
+        out.write('\n')
         out.write('072 %s' % self.numratedplayers)
+        out.write('\n')
         out.write('082 %s' % self.numteams)
+        out.write('\n')
         out.write('092 %s' % self.type)
+        out.write('\n')
         out.write('102 %s' % self.chiefarbiter)
+        out.write('\n')
         out.write('112 %s' % self.deputyarbiters)
+        out.write('\n')
         out.write('122 %s' % self.rateofplay)
-
+        out.write('\n')
         for player in self.players:
-            out.write(player.create_trf_line_for_player())
+            out.write(player.create_trf_line())
+            out.write('\n')
 
-        for field, value in extra_XX_fields:
-            out.write('%s %s % (field, value)')
+        for field, value in extra_XX_fields.items():
+            out.write('%s %s' % (field, value))
+            out.write('\n')
 
-        out.getvalue()
+        return out.getvalue()

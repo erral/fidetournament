@@ -19,20 +19,20 @@ class Player(object):
         )
 
     def create_trf_line(self):
-        sr = '{: 3}'.format(self.startrank)
+        sr = '{:>4}'.format(self.startrank)
         sex = self.sex
-        title = '{: 2}'.format(self.title)
-        name = '{: 32}'.format(self.name)
-        fide = '{: 4}'.format(self.fide)
-        fed = '{: 3}'.format(self.fed)
-        id = '{: 10}'.format(self.id)
-        birthdate = '{: 10}'.format(self.birthdate)
-        points = '{: 3}'.format(self.points)
-        rank = '{: 3}'.format(self.rank)
+        title = '{:>2}'.format(self.title)
+        name = '{:33}'.format(self.name)
+        fide = '{:>4}'.format(self.fide)
+        fed = '{:>3}'.format(self.fed)
+        id = '{:>11}'.format(self.id)
+        birthdate = '{:10}'.format(self.birthdate)
+        points = '{:>4}'.format(self.points)
+        rank = '{:>4}'.format(self.rank)
         opponents = []
         for opponent in sorted(self.opponents, lambda x,y:cmp(x.get('round'), y.get('round'))):
             opponent_str = ''
-            id = '{: 4}'.format(opponent.get('id'))
+            id = '{:>4}'.format(opponent.get('id'))
             color = opponent.get('color')
             result = opponent.get('result')
 
@@ -51,5 +51,5 @@ class Player(object):
             birthdate,
             points,
             rank,
-            opponent_str
+            ' '.join(opponents),
         ])
