@@ -19,22 +19,37 @@ class Player(object):
         )
 
     def create_trf_line(self):
-        """
-                  1         2         3         4         5         6         7
-         1234567890123456789012345678901234567890123456789012345678901234567890
-        """
-        return ''
+        sr = '{: 3}'.format(self.startrank)
+        sex = self.sex
+        title = '{: 2}'.format(self.title)
+        name = '{: 32}'.format(self.name)
+        fide = '{: 4}'.format(self.fide)
+        fed = '{: 3}'.format(self.fed)
+        id = '{: 10}'.format(self.id)
+        birthdate = '{: 10}'.format(self.birthdate)
+        points = '{: 3}'.format(self.points)
+        rank = '{: 3}'.format(self.rank)
+        opponents = []
+        for opponent in sorted(self.opponents, lambda x,y:cmp(x.get('round'), y.get('round'))):
+            opponent_str = ''
+            id = '{: 4}'.format(opponent.get('id'))
+            color = opponent.get('color')
+            result = opponent.get('result')
 
-        # player.startrank = line[4:8].strip()
-        # player.sex = line[9].strip()
-        # player.title = line[10:13].strip()
-        # player.name = line[14:47].strip()
-        # player.fide = line[48:52].strip()
-        # player.fed = line[53:56].strip()
-        # player.id = line[57:68].strip()
-        # player.birthdate = line[69:79].strip()
-        # player.points = line[80:84].strip()
-        # player.rank = line[85:89].strip()
-        # opponent_data = line[91:].rstrip()
-        # opponent_list = self.string_groupper(opponent_data, 10)
-        # player.opponents = self.parse_opponent_list(opponent_list)
+            opponent_str = ' '.join([id, color, result])
+            opponents.append(opponent_str)
+
+        return ' '.join([
+            '001',
+            sr,
+            sex,
+            title,
+            name,
+            fide,
+            fed,
+            id,
+            birthdate,
+            points,
+            rank,
+            opponent_str
+        ])
