@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from .player import Player
-from StringIO import StringIO
+from six import StringIO
 
 
 class Tournament(object):
