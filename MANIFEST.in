@@ -1,4 +1,6 @@
 recursive-include fidetournament *
 recursive-include docs *
+recursive-include tests *.py
+recursive-include tests *.trf
 include *
 global-exclude *.pyc
