@@ -4,7 +4,8 @@ Changelog
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Remove setup.cfg.
+  [erral]
 
 
 0.1 (2018-09-05)
