@@ -1,8 +1,8 @@
 Changelog
 ===========
 
-0.1 - (UNRELEASED)
---------------------
+0.1 (2018-09-05)
+----------------
 
 - Initial release
   [erral]
